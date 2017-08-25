@@ -39,23 +39,18 @@ namespace kahve_yaptirici
             string degisecekSatir = string.Empty;
             string yeniSatir = string.Empty;
             bool streamSecilenKisiyiIceriyorMu = false;
+            
+            var eslesenList = DosyaIcerigiOku().AsEnumerable().Where(p => p.Contains(secilenKisi));
 
-            string[] butunSatirlar = DosyaIcerigiOku();
-
-            foreach (var satir in butunSatirlar)
+            if (eslesenList.Any())
             {
-                if (satir.Contains(secilenKisi))
-                {
-                    degisecekSatir = satir;
+                string satir = eslesenList.ElementAtOrDefault(0);
 
-                    int sayi;
-                    int.TryParse(satir.Substring(satir.LastIndexOf(' '), satir.Length - satir.LastIndexOf(' ')).Trim(), out sayi);
+                int sayi;
+                int.TryParse(satir.Substring(satir.LastIndexOf(' '), satir.Length - satir.LastIndexOf(' ')).Trim(), out sayi);
 
-                    yeniSatir = secilenKisi + " - " + (sayi + 1).ToString();
-                    streamSecilenKisiyiIceriyorMu = true;
-
-                    break;
-                }
+                yeniSatir = secilenKisi + " - " + (sayi + 1).ToString();
+                streamSecilenKisiyiIceriyorMu = true;
             }
 
             File.WriteAllLines(FileName, File.ReadLines(FileName).Where(p => p != degisecekSatir).ToList());
