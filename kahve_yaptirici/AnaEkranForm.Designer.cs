@@ -44,6 +44,8 @@
             this.kisiAdiTb = new System.Windows.Forms.TextBox();
             this.talihliLb = new System.Windows.Forms.Label();
             this.sayiLbl = new System.Windows.Forms.Label();
+            this.leaderboardLb = new System.Windows.Forms.ListBox();
+            this.top5Lbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.KapatButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +53,7 @@
             // 
             this.KapatButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.KapatButton.Image = ((System.Drawing.Image)(resources.GetObject("KapatButton.Image")));
-            this.KapatButton.Location = new System.Drawing.Point(289, 1);
+            this.KapatButton.Location = new System.Drawing.Point(510, 3);
             this.KapatButton.Name = "KapatButton";
             this.KapatButton.Size = new System.Drawing.Size(16, 16);
             this.KapatButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -199,12 +201,35 @@
             this.sayiLbl.Size = new System.Drawing.Size(0, 14);
             this.sayiLbl.TabIndex = 19;
             // 
+            // leaderboardLb
+            // 
+            this.leaderboardLb.BackColor = System.Drawing.SystemColors.Control;
+            this.leaderboardLb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.leaderboardLb.FormattingEnabled = true;
+            this.leaderboardLb.ItemHeight = 14;
+            this.leaderboardLb.Location = new System.Drawing.Point(308, 53);
+            this.leaderboardLb.Name = "leaderboardLb";
+            this.leaderboardLb.Size = new System.Drawing.Size(217, 128);
+            this.leaderboardLb.TabIndex = 20;
+            // 
+            // top5Lbl
+            // 
+            this.top5Lbl.AutoSize = true;
+            this.top5Lbl.Font = new System.Drawing.Font("Calibri", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.top5Lbl.Location = new System.Drawing.Point(309, 24);
+            this.top5Lbl.Name = "top5Lbl";
+            this.top5Lbl.Size = new System.Drawing.Size(138, 17);
+            this.top5Lbl.TabIndex = 21;
+            this.top5Lbl.Text = "LEADERBOARD - TOP 5";
+            // 
             // AnaEkranForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(318, 289);
+            this.ClientSize = new System.Drawing.Size(542, 289);
+            this.Controls.Add(this.top5Lbl);
+            this.Controls.Add(this.leaderboardLb);
             this.Controls.Add(this.sayiLbl);
             this.Controls.Add(this.talihliLb);
             this.Controls.Add(this.TemizleButton);
@@ -247,6 +272,8 @@
         private System.Windows.Forms.TextBox kisiAdiTb;
         private System.Windows.Forms.Label talihliLb;
         private System.Windows.Forms.Label sayiLbl;
+        private System.Windows.Forms.ListBox leaderboardLb;
+        private System.Windows.Forms.Label top5Lbl;
     }
 }
 

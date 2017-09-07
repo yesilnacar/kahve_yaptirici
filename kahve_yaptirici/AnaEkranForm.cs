@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Media;
@@ -22,6 +23,7 @@ namespace kahve_yaptirici
             elineSaglikLbl.Visible = false;
 
             tarihSaatLbl.Text = DateTime.Now.ToString();
+            LeaderboardOlustur();
         }
 
         #endregion Initialize Form
@@ -134,6 +136,7 @@ namespace kahve_yaptirici
 
             DosyayaYaz(talihliLb.Text.Substring(0, talihliLb.Text.IndexOf('-')).Trim());
             MuzikCal();
+            LeaderboardOlustur();
         }
 
         private void ListedekiIsimleriDondur()
@@ -172,6 +175,25 @@ namespace kahve_yaptirici
             FileHelper.KlasorYarat();
             FileHelper.TextDosyaYoksaYarat();
             FileHelper.DosyayaYaz(secilenKisi);
+        }
+
+        private void LeaderboardOlustur()
+        {
+            leaderboardLb.Items.Clear();
+            DataTable icerikDt = FileHelper.DosyaIcerigiDataTableDondur();
+
+            var top5RowList = (from dt in icerikDt.AsEnumerable()
+                         orderby (int)dt["Sayi"] descending
+                         select dt).Take(5);
+
+            int index = 1;
+            foreach (var row in top5RowList)
+            {
+                string satir = index.ToString() + ". " + (string)row["Ad"] + " " + Convert.ToString(row["Sayi"]);
+                leaderboardLb.Items.Add(satir);
+
+                index++;
+            }
         }
 
         #endregion Methods  

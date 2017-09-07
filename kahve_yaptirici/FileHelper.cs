@@ -44,10 +44,10 @@ namespace kahve_yaptirici
 
             if (eslesenList.Any())
             {
-                string satir = eslesenList.ElementAtOrDefault(0);
+                degisecekSatir = eslesenList.ElementAtOrDefault(0);
 
                 int sayi;
-                int.TryParse(satir.Substring(satir.LastIndexOf(' '), satir.Length - satir.LastIndexOf(' ')).Trim(), out sayi);
+                int.TryParse(degisecekSatir.Substring(degisecekSatir.LastIndexOf(' '), degisecekSatir.Length - degisecekSatir.LastIndexOf(' ')).Trim(), out sayi);
 
                 yeniSatir = secilenKisi + " - " + (sayi + 1).ToString();
                 streamSecilenKisiyiIceriyorMu = true;
