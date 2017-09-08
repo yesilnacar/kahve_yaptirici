@@ -10,6 +10,9 @@ namespace kahve_yaptirici
     public partial class AnaEkranForm : Form
     {
         int kahveYaptirmaSayisi;
+        const int WM_NCHITTEST = 0x84;
+        const int HTCLIENT = 0x1;
+        const int HTCAPTION = 0x2;
 
         #region Initialize Form
 
@@ -224,6 +227,27 @@ namespace kahve_yaptirici
                 index++;
             }
         }
+
+        #region Override Methods
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case WM_NCHITTEST:
+                    {
+                        base.WndProc(ref m);
+                        if ((int)m.Result == HTCLIENT)
+                            m.Result = (IntPtr)HTCAPTION;
+
+                        return;
+                    }
+            }
+
+            base.WndProc(ref m);
+        }
+
+        #endregion Override Methods
 
         #endregion Methods  
     }
