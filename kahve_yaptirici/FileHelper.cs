@@ -10,7 +10,7 @@ namespace kahve_yaptirici
     {
         public readonly static string DirectoryPath = ConfigurationManager.AppSettings["DirectoryPath"].ToString();
         public readonly static string FileName = Path.Combine(DirectoryPath, "Kahve_Yapanlar.txt");
-
+        
         public static void KlasorYarat()
         {
             if (!Directory.Exists(DirectoryPath))
@@ -19,6 +19,8 @@ namespace kahve_yaptirici
 
         public static void TextDosyaYoksaYarat()
         {
+            KlasorYarat();
+
             if (!File.Exists(FileName))
             {
                 var myFile = File.Create(FileName);
@@ -28,7 +30,10 @@ namespace kahve_yaptirici
 
         public static string[] DosyaIcerigiOku()
         {
-            return File.ReadAllLines(FileName);
+            if (File.Exists(FileName))
+                return File.ReadAllLines(FileName);
+            else
+                return null;
         }
 
         public static void DosyayaYaz(string secilenKisi)
@@ -64,10 +69,13 @@ namespace kahve_yaptirici
         public static DataTable DosyaIcerigiDataTableDondur()
         {
             string[] butunSatirlar = DosyaIcerigiOku();
-
+            
             DataTable istatistikDt = new DataTable("IstatistikDt");
             istatistikDt.Columns.Add("Ad", typeof(string));
             istatistikDt.Columns.Add("Sayi", typeof(int));
+
+            if (butunSatirlar == null)
+                return istatistikDt;
 
             DataRow newRow;
             foreach (var satir in butunSatirlar)

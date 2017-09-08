@@ -91,6 +91,26 @@ namespace kahve_yaptirici
             talihliLb.Text = string.Empty;
         }
 
+        private void leaderboardLb_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+
+            Brush brush = Brushes.Black;
+            Font font = new Font("Calibri", 9, FontStyle.Bold);
+            
+            switch (e.Index)
+            {
+                case 0:
+                    brush = Brushes.Red;
+                    font = new Font("Calibri", 9, FontStyle.Bold);
+                    break;
+                default:
+                    break;
+            }
+
+            e.Graphics.DrawString(leaderboardLb.Items[e.Index].ToString(), font, brush, e.Bounds);
+        }
+
         #endregion Events
 
         #region Methods
@@ -116,16 +136,14 @@ namespace kahve_yaptirici
 
         private void KisiSec()
         {
-            if (kisilerLb.Items.Count > 0)
-            {
-                ListedekiIsimleriDondur();
+            if (kisilerLb.Items.Count == 0)
+                return;
 
-                Guid id = Guid.NewGuid();
-                int index = Math.Abs(id.GetHashCode()) % kisilerLb.Items.Count;
-                talihliLb.Text = kisilerLb.Items[index].ToString() + " - " + DateTime.Now.ToLongTimeString();
-            }
-            else
-                talihliLb.Text = "Liste boş olduğundan TAMER MEMİLİ yapacaktır.";
+            ListedekiIsimleriDondur();
+
+            Guid id = Guid.NewGuid();
+            int index = Math.Abs(id.GetHashCode()) % kisilerLb.Items.Count;
+            talihliLb.Text = kisilerLb.Items[index].ToString() + " - " + DateTime.Now.ToLongTimeString();
 
             talihliLb.ForeColor = Color.Red;
             elineSaglikLbl.Visible = true;
@@ -182,14 +200,25 @@ namespace kahve_yaptirici
             leaderboardLb.Items.Clear();
             DataTable icerikDt = FileHelper.DosyaIcerigiDataTableDondur();
 
+            if (icerikDt.Rows.Count == 0)
+                return;
+
             var top5RowList = (from dt in icerikDt.AsEnumerable()
-                         orderby (int)dt["Sayi"] descending
-                         select dt).Take(5);
+                               orderby (int)dt["Sayi"] descending
+                               select dt).Take(5);
+
+            var maxNameLength = (from dt in icerikDt.AsEnumerable()
+                                 orderby ((string)dt["Ad"]).Length descending
+                                 select ((string)dt["Ad"]).Length).FirstOrDefault();
+
+            var maxCountLength = (from dt in icerikDt.AsEnumerable()
+                                  orderby Convert.ToString(dt["Sayi"]).Length descending
+                                  select Convert.ToString(dt["Sayi"]).Length).FirstOrDefault();
 
             int index = 1;
             foreach (var row in top5RowList)
             {
-                string satir = index.ToString() + ". " + (string)row["Ad"] + " " + Convert.ToString(row["Sayi"]);
+                string satir = index.ToString() + ".  " + ((string)row["Ad"]).PadRight(maxNameLength, ' ') + " - " + Convert.ToString(row["Sayi"]).PadLeft(maxCountLength, ' ');
                 leaderboardLb.Items.Add(satir);
 
                 index++;
