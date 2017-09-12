@@ -3,6 +3,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Media;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace kahve_yaptirici
@@ -144,20 +145,27 @@ namespace kahve_yaptirici
 
             ListedekiIsimleriDondur();
 
-            Guid id = Guid.NewGuid();
-            int index = Math.Abs(id.GetHashCode()) % kisilerLb.Items.Count;
-            talihliLb.Text = kisilerLb.Items[index].ToString() + " - " + DateTime.Now.ToLongTimeString();
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+            {
+                byte[] uintBuffer = new byte[sizeof(uint)];
+                rng.GetBytes(uintBuffer);
 
-            talihliLb.ForeColor = Color.Red;
-            elineSaglikLbl.Visible = true;
-            elineSaglikLbl.Refresh();
+                uint num = BitConverter.ToUInt32(uintBuffer, 0);
+                int index = Convert.ToInt32(Math.Abs(num) % kisilerLb.Items.Count);
 
-            kahveYaptirmaSayisi++;
-            sayiLbl.Text = kahveYaptirmaSayisi.ToString() + " defa butona basılmıştır.";
+                talihliLb.Text = kisilerLb.Items[index].ToString() + " - " + DateTime.Now.ToLongTimeString();
 
-            DosyayaYaz(talihliLb.Text.Substring(0, talihliLb.Text.IndexOf('-')).Trim());
-            MuzikCal();
-            LeaderboardOlustur();
+                talihliLb.ForeColor = Color.Red;
+                elineSaglikLbl.Visible = true;
+                elineSaglikLbl.Refresh();
+
+                kahveYaptirmaSayisi++;
+                sayiLbl.Text = kahveYaptirmaSayisi.ToString() + " defa butona basılmıştır.";
+
+                DosyayaYaz(talihliLb.Text.Substring(0, talihliLb.Text.IndexOf('-')).Trim());
+                MuzikCal();
+                LeaderboardOlustur();
+            }
         }
 
         private void ListedekiIsimleriDondur()

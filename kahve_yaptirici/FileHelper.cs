@@ -8,7 +8,7 @@ namespace kahve_yaptirici
 {
     public static class FileHelper
     {
-        public readonly static string DirectoryPath = ConfigurationManager.AppSettings["DirectoryPath"].ToString();
+        public readonly static string DirectoryPath = @"\\10.35.107.107\network\KAHVE_YAPTIRICI"; //ConfigurationManager.AppSettings["DirectoryPath"].ToString();
         public readonly static string FileName = Path.Combine(DirectoryPath, "Kahve_Yapanlar.txt");
         
         public static void KlasorYarat()
@@ -30,6 +30,8 @@ namespace kahve_yaptirici
 
         public static string[] DosyaIcerigiOku()
         {
+            KlasorYarat();
+
             if (File.Exists(FileName))
                 return File.ReadAllLines(FileName);
             else
