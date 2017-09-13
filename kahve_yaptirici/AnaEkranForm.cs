@@ -277,7 +277,7 @@ namespace kahve_yaptirici
 
         private void TickerTimer_Tick(object sender, EventArgs e)
         {
-            if (leaderboardLb.Items.Count == 0 || !kisiSecildiMi)
+            if (leaderboardLb.Items.Count == 0 || !kisiSecildiMi || selectedItemIndex > leaderboardLb.Items.Count)
                 return;
             
             if (string.IsNullOrWhiteSpace(leaderboardLb.Items[selectedItemIndex].ToString()))
