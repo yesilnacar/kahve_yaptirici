@@ -46,6 +46,7 @@
             this.sayiLbl = new System.Windows.Forms.Label();
             this.leaderboardLb = new System.Windows.Forms.ListBox();
             this.top5Lbl = new System.Windows.Forms.Label();
+            this.TickerTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.KapatButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -224,6 +225,12 @@
             this.top5Lbl.TabIndex = 21;
             this.top5Lbl.Text = "LEADERBOARD - TOP 5";
             // 
+            // TickerTimer
+            // 
+            this.TickerTimer.Enabled = true;
+            this.TickerTimer.Interval = 500;
+            this.TickerTimer.Tick += new System.EventHandler(this.TickerTimer_Tick);
+            // 
             // AnaEkranForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -276,6 +283,7 @@
         private System.Windows.Forms.Label sayiLbl;
         private System.Windows.Forms.ListBox leaderboardLb;
         private System.Windows.Forms.Label top5Lbl;
+        private System.Windows.Forms.Timer TickerTimer;
     }
 }
 

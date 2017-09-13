@@ -14,6 +14,9 @@ namespace kahve_yaptirici
         const int WM_NCHITTEST = 0x84;
         const int HTCLIENT = 0x1;
         const int HTCAPTION = 0x2;
+        int selectedItemIndex;
+        string selectedItem = string.Empty;
+        bool kisiSecildiMi;
 
         #region Initialize Form
 
@@ -165,7 +168,16 @@ namespace kahve_yaptirici
                 DosyayaYaz(talihliLb.Text.Substring(0, talihliLb.Text.IndexOf('-')).Trim());
                 MuzikCal();
                 LeaderboardOlustur();
+                SecilenKisiLeaderboarddaVarMi(kisilerLb.Items[index].ToString());
+
+                kisiSecildiMi = true;
             }
+        }
+
+        private void SecilenKisiLeaderboarddaVarMi(string secilenKisi)
+        {
+            selectedItem = leaderboardLb.Items.Cast<string>().AsEnumerable().Where(p => p.Contains(secilenKisi)).Select(p => p).FirstOrDefault();
+            selectedItemIndex = leaderboardLb.Items.IndexOf(selectedItem);
         }
 
         private void ListedekiIsimleriDondur()
@@ -229,11 +241,15 @@ namespace kahve_yaptirici
             int index = 1;
             foreach (var row in top5RowList)
             {
-                string satir = index.ToString() + ".  " + ((string)row["Ad"]).PadRight(maxNameLength, ' ') + " - " + Convert.ToString(row["Sayi"]).PadLeft(maxCountLength, ' ');
+                int starCount = Convert.ToInt32(row["Sayi"]) / 5;
+
+                string satir = index.ToString() + ".  " + ((string)row["Ad"]).PadRight(maxNameLength, ' ') + " - " + Convert.ToString(row["Sayi"]).PadLeft(maxCountLength, ' ') + "  " + new string('*', starCount);
                 leaderboardLb.Items.Add(satir);
 
                 index++;
             }
+
+            //firstItem = leaderboardLb.Items[0].ToString();
         }
 
         #region Override Methods
@@ -258,5 +274,16 @@ namespace kahve_yaptirici
         #endregion Override Methods
 
         #endregion Methods  
+
+        private void TickerTimer_Tick(object sender, EventArgs e)
+        {
+            if (leaderboardLb.Items.Count == 0 || !kisiSecildiMi)
+                return;
+            
+            if (string.IsNullOrWhiteSpace(leaderboardLb.Items[selectedItemIndex].ToString()))
+                leaderboardLb.Items[selectedItemIndex] = selectedItem;
+            else
+                leaderboardLb.Items[selectedItemIndex] = string.Empty;            
+        }
     }
 }
