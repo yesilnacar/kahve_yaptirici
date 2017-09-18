@@ -176,8 +176,11 @@ namespace kahve_yaptirici
 
         private void SecilenKisiLeaderboarddaVarMi(string secilenKisi)
         {
-            selectedItem = leaderboardLb.Items.Cast<string>().AsEnumerable().Where(p => p.Contains(secilenKisi)).Select(p => p).FirstOrDefault();
-            selectedItemIndex = leaderboardLb.Items.IndexOf(selectedItem);
+            if (leaderboardLb.Items.Cast<string>().AsEnumerable().Any(p => p.Contains(secilenKisi)))
+            {
+                selectedItem = leaderboardLb.Items.Cast<string>().AsEnumerable().Where(p => p.Contains(secilenKisi)).Select(p => p).FirstOrDefault();
+                selectedItemIndex = leaderboardLb.Items.IndexOf(selectedItem);
+            }
         }
 
         private void ListedekiIsimleriDondur()
@@ -277,7 +280,7 @@ namespace kahve_yaptirici
 
         private void TickerTimer_Tick(object sender, EventArgs e)
         {
-            if (leaderboardLb.Items.Count == 0 || !kisiSecildiMi || selectedItemIndex > leaderboardLb.Items.Count)
+            if (leaderboardLb.Items.Count == 0 || !kisiSecildiMi || selectedItemIndex > leaderboardLb.Items.Count || string.IsNullOrWhiteSpace(selectedItem))
                 return;
             
             if (string.IsNullOrWhiteSpace(leaderboardLb.Items[selectedItemIndex].ToString()))
