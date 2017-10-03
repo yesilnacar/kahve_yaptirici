@@ -29,10 +29,12 @@ namespace kahve_yaptirici
             talihliLb.Text = string.Empty;
             elineSaglikLbl.Visible = false;
 
+            top5Lbl.Text = "KAHVE KRALLIĞI TOP 5" + " - " + DateTime.Now.ToString("MMMM") + " " + DateTime.Now.Year.ToString();
             tarihSaatLbl.Text = DateTime.Now.ToString();
             LeaderboardOlustur();
+            GecenAyKraliAdDondur();
         }
-
+        
         #endregion Initialize Form
 
         #region Events
@@ -116,6 +118,17 @@ namespace kahve_yaptirici
             }
 
             e.Graphics.DrawString(leaderboardLb.Items[e.Index].ToString(), font, brush, e.Bounds);
+        }
+
+        private void TickerTimer_Tick(object sender, EventArgs e)
+        {
+            if (leaderboardLb.Items.Count == 0 || !kisiSecildiMi || selectedItemIndex > leaderboardLb.Items.Count || string.IsNullOrWhiteSpace(selectedItem))
+                return;
+
+            if (string.IsNullOrWhiteSpace(leaderboardLb.Items[selectedItemIndex].ToString()))
+                leaderboardLb.Items[selectedItemIndex] = selectedItem;
+            else
+                leaderboardLb.Items[selectedItemIndex] = string.Empty;
         }
 
         #endregion Events
@@ -255,6 +268,31 @@ namespace kahve_yaptirici
             //firstItem = leaderboardLb.Items[0].ToString();
         }
 
+        private void GecenAyKraliAdDondur()
+        {
+            string isim = DateTime.Now.AddMonths(-1).ToString("MMMM") + "_" + DateTime.Now.AddMonths(-1).Year;
+
+            string[] gecmisDosyaIcerigi = FileHelper.DosyaIcerigiOku(isim);
+
+            if (gecmisDosyaIcerigi == null)
+                GecenAyKraliAdLbl.Text = string.Empty;
+            else
+            {
+                DataTable icerikDt = FileHelper.DosyaIcerigiDataTableDondur(gecmisDosyaIcerigi);
+
+                if (icerikDt.Rows.Count == 0)
+                    GecenAyKraliAdLbl.Text = string.Empty;
+                else
+                {
+                    var topRow = (from dt in icerikDt.AsEnumerable()
+                                  orderby (int)dt["Sayi"] descending
+                                  select dt).Take(1).FirstOrDefault();
+
+                    GecenAyKraliAdLbl.Text = (string)topRow["Ad"];
+                }
+            }
+        }
+
         #region Override Methods
 
         protected override void WndProc(ref Message m)
@@ -276,17 +314,6 @@ namespace kahve_yaptirici
 
         #endregion Override Methods
 
-        #endregion Methods  
-
-        private void TickerTimer_Tick(object sender, EventArgs e)
-        {
-            if (leaderboardLb.Items.Count == 0 || !kisiSecildiMi || selectedItemIndex > leaderboardLb.Items.Count || string.IsNullOrWhiteSpace(selectedItem))
-                return;
-            
-            if (string.IsNullOrWhiteSpace(leaderboardLb.Items[selectedItemIndex].ToString()))
-                leaderboardLb.Items[selectedItemIndex] = selectedItem;
-            else
-                leaderboardLb.Items[selectedItemIndex] = string.Empty;            
-        }
+        #endregion Methods
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.IO;
@@ -9,7 +10,8 @@ namespace kahve_yaptirici
     public static class FileHelper
     {
         public readonly static string DirectoryPath = @"\\10.35.107.107\network\KAHVE_YAPTIRICI"; //ConfigurationManager.AppSettings["DirectoryPath"].ToString();
-        public readonly static string FileName = Path.Combine(DirectoryPath, "Kahve_Yapanlar.txt");
+        public readonly static string kahveYapanlarSabiti = "Kahve_Yapanlar_";
+        public static string FileName = Path.Combine(DirectoryPath, kahveYapanlarSabiti + DateTime.Now.ToString("MMMM") + "_" + DateTime.Now.Year.ToString() + ".txt");
         
         public static void KlasorYarat()
         {
@@ -20,6 +22,10 @@ namespace kahve_yaptirici
         public static void TextDosyaYoksaYarat()
         {
             KlasorYarat();
+
+#if DEBUG
+            FileName = Path.Combine(DirectoryPath, "Kahve_Yapanlar_TEST.txt");
+#endif
 
             if (!File.Exists(FileName))
             {
@@ -34,6 +40,16 @@ namespace kahve_yaptirici
 
             if (File.Exists(FileName))
                 return File.ReadAllLines(FileName);
+            else
+                return null;
+        }
+
+        public static string[] DosyaIcerigiOku(string istenenDosyaAdi)
+        {
+            string aranacakDosyaAdi = Path.Combine(DirectoryPath, kahveYapanlarSabiti + istenenDosyaAdi + ".txt");
+
+            if (File.Exists(aranacakDosyaAdi))
+                return File.ReadAllLines(aranacakDosyaAdi);
             else
                 return null;
         }
@@ -72,15 +88,20 @@ namespace kahve_yaptirici
         {
             string[] butunSatirlar = DosyaIcerigiOku();
             
+            return DosyaIcerigiDataTableDondur(butunSatirlar);
+        }
+
+        public static DataTable DosyaIcerigiDataTableDondur(string[] icerik)
+        {
             DataTable istatistikDt = new DataTable("IstatistikDt");
             istatistikDt.Columns.Add("Ad", typeof(string));
             istatistikDt.Columns.Add("Sayi", typeof(int));
 
-            if (butunSatirlar == null)
+            if (icerik == null)
                 return istatistikDt;
 
             DataRow newRow;
-            foreach (var satir in butunSatirlar)
+            foreach (var satir in icerik)
             {
                 var bilgi = satir.Split('-').ToList();
 

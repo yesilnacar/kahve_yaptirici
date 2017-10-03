@@ -47,6 +47,8 @@
             this.leaderboardLb = new System.Windows.Forms.ListBox();
             this.top5Lbl = new System.Windows.Forms.Label();
             this.TickerTimer = new System.Windows.Forms.Timer(this.components);
+            this.GecenAyKraliLbl = new System.Windows.Forms.Label();
+            this.GecenAyKraliAdLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.KapatButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,7 +56,7 @@
             // 
             this.KapatButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.KapatButton.Image = ((System.Drawing.Image)(resources.GetObject("KapatButton.Image")));
-            this.KapatButton.Location = new System.Drawing.Point(483, 3);
+            this.KapatButton.Location = new System.Drawing.Point(500, 3);
             this.KapatButton.Name = "KapatButton";
             this.KapatButton.Size = new System.Drawing.Size(16, 16);
             this.KapatButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -211,7 +213,7 @@
             this.leaderboardLb.ItemHeight = 14;
             this.leaderboardLb.Location = new System.Drawing.Point(313, 53);
             this.leaderboardLb.Name = "leaderboardLb";
-            this.leaderboardLb.Size = new System.Drawing.Size(186, 128);
+            this.leaderboardLb.Size = new System.Drawing.Size(203, 128);
             this.leaderboardLb.TabIndex = 20;
             this.leaderboardLb.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.leaderboardLb_DrawItem);
             // 
@@ -221,9 +223,8 @@
             this.top5Lbl.Font = new System.Drawing.Font("Calibri", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.top5Lbl.Location = new System.Drawing.Point(310, 24);
             this.top5Lbl.Name = "top5Lbl";
-            this.top5Lbl.Size = new System.Drawing.Size(138, 17);
+            this.top5Lbl.Size = new System.Drawing.Size(0, 17);
             this.top5Lbl.TabIndex = 21;
-            this.top5Lbl.Text = "LEADERBOARD - TOP 5";
             // 
             // TickerTimer
             // 
@@ -231,12 +232,31 @@
             this.TickerTimer.Interval = 500;
             this.TickerTimer.Tick += new System.EventHandler(this.TickerTimer_Tick);
             // 
+            // GecenAyKraliLbl
+            // 
+            this.GecenAyKraliLbl.AutoSize = true;
+            this.GecenAyKraliLbl.Location = new System.Drawing.Point(310, 184);
+            this.GecenAyKraliLbl.Name = "GecenAyKraliLbl";
+            this.GecenAyKraliLbl.Size = new System.Drawing.Size(102, 14);
+            this.GecenAyKraliLbl.TabIndex = 22;
+            this.GecenAyKraliLbl.Text = "Geçen Ayın Kralı : ";
+            // 
+            // GecenAyKraliAdLbl
+            // 
+            this.GecenAyKraliAdLbl.AutoSize = true;
+            this.GecenAyKraliAdLbl.Location = new System.Drawing.Point(310, 198);
+            this.GecenAyKraliAdLbl.Name = "GecenAyKraliAdLbl";
+            this.GecenAyKraliAdLbl.Size = new System.Drawing.Size(0, 14);
+            this.GecenAyKraliAdLbl.TabIndex = 23;
+            // 
             // AnaEkranForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(515, 289);
+            this.ClientSize = new System.Drawing.Size(528, 289);
+            this.Controls.Add(this.GecenAyKraliAdLbl);
+            this.Controls.Add(this.GecenAyKraliLbl);
             this.Controls.Add(this.top5Lbl);
             this.Controls.Add(this.leaderboardLb);
             this.Controls.Add(this.sayiLbl);
@@ -284,6 +304,8 @@
         private System.Windows.Forms.ListBox leaderboardLb;
         private System.Windows.Forms.Label top5Lbl;
         private System.Windows.Forms.Timer TickerTimer;
+        private System.Windows.Forms.Label GecenAyKraliLbl;
+        private System.Windows.Forms.Label GecenAyKraliAdLbl;
     }
 }
 
