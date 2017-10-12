@@ -288,7 +288,7 @@ namespace kahve_yaptirici
                                   orderby (int)dt["Sayi"] descending
                                   select dt).Take(1).FirstOrDefault();
 
-                    GecenAyKraliAdLbl.Text = (string)topRow["Ad"];
+                    GecenAyKraliAdLbl.Text = ">> " + (string)topRow["Ad"] + " - " + topRow["Sayi"].ToString() + " <<";
                 }
             }
         }

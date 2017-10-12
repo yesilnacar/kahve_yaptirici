@@ -244,6 +244,7 @@
             // GecenAyKraliAdLbl
             // 
             this.GecenAyKraliAdLbl.AutoSize = true;
+            this.GecenAyKraliAdLbl.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.GecenAyKraliAdLbl.Location = new System.Drawing.Point(310, 198);
             this.GecenAyKraliAdLbl.Name = "GecenAyKraliAdLbl";
             this.GecenAyKraliAdLbl.Size = new System.Drawing.Size(0, 14);
